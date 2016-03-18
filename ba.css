@@ -1,0 +1,82 @@
+h1 {
+    font-family: century gothic, sans-serif;
+}
+
+h3 {
+    font-family: arial;
+    font-size: 14;
+}
+
+.myButton {
+	-moz-box-shadow: inset 0px 1px 0px 0px #e67a73;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #e67a73;
+	box-shadow: inset 0px 1px 0px 0px #e67a73;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ff483b), color-stop(1, #d43b3b));
+	background: -moz-linear-gradient(top, #ff483b 5%, #d43b3b 100%);
+	background: -webkit-linear-gradient(top, #ff483b 5%, #d43b3b 100%);
+	background: -o-linear-gradient(top, #ff483b 5%, #d43b3b 100%);
+	background: -ms-linear-gradient(top, #ff483b 5%, #d43b3b 100%);
+	background: linear-gradient(to bottom, #ff483b 5%, #d43b3b 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff483b', endColorstr='#d43b3b',GradientType=0);
+	background-color: #ff483b;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	border: 1px solid #ffffff;
+	display: inline-block;
+	cursor: pointer;
+	color: #ffffff;
+	font-family: century gothic, sans-serif;
+	font-size: 15px;
+	font-weight: bold;
+	padding: 6px 24px;
+	text-decoration: none;
+	text-shadow: 0px 1px 0px #b23e35;
+}
+.myButton:hover {
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #d43b3b), color-stop(1, #ff483b));
+	background: -moz-linear-gradient(top, #d43b3b 5%, #ff483b 100%);
+	background: -webkit-linear-gradient(top, #d43b3b 5%, #ff483b 100%);
+	background: -o-linear-gradient(top, #d43b3b 5%, #ff483b 100%);
+	background: -ms-linear-gradient(top, #d43b3b 5%, #ff483b 100%);
+	background: linear-gradient(to bottom, #d43b3b 5%, #ff483b 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#d43b3b', endColorstr='#ff483b',GradientType=0);
+	background-color:#d43b3b;
+}
+.myButton: active {
+	position: relative;
+	top: 1px;
+}
+
+.BA {
+    background-color: #3399FF;
+    width: 150px;
+    height: 75px;
+    font-family: century gothic, sans-serif;
+    font-size: 23;
+    color: white;
+    cursor:pointer;
+    border: 1px solid #ffffff;
+}
+
+.BA:hover, .BA:active {
+    background-color: #98BFE6;
+}
+
+/*Placeholder*/
+.Placeholder {
+    background-color: lightgray;
+    width: 150px;
+    height: 75px;
+    font-family: century gothic, sans-serif;
+    font-size: 23;
+    color: lightgray;
+    cursor: pointer;
+    border: 1px solid #ffffff;
+}
+
+.divider {
+    width: 100px;
+    height: auto;
+    display: inline-block;
+}

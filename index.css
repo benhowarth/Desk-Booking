@@ -1,0 +1,115 @@
+h1 {
+    font-family: century gothic, sans-serif;
+}
+
+h2 {
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    text-align: centre;
+    font-size: 22px;
+}
+
+p {
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    text-align: centre;
+    font-size: 20px;
+}
+
+.html {
+    background-color: black;
+}
+
+.DCC {
+    background-color: #b366ff;
+    width: 300px;
+    height: 300px;
+    font-family: century gothic, sans-serif;
+    font-size: 40px;
+    color: white;
+    margin: 1px;
+    border: 1px solid #ffffff;
+}
+
+.DCC:hover, .DCC:active {
+    background-color: #bf80ff;
+    cursor: pointer;
+}
+
+.PAYG {
+    background-color: #FCA753;
+    width: 300px;
+    height: 300px;
+    font-family: century gothic, sans-serif;
+    font-size: 40px;
+    color: white;
+    margin: 1px;
+    border: 1px solid #ffffff;
+}
+
+.PAYG:hover, .PAYG:active {
+    background-color: #FFC754;
+    cursor: pointer;
+}
+
+.AssetOps {
+    background-color: #86fb50;
+    width: 300px;
+    height: 300px;
+    font-family: century gothic, sans-serif;
+    font-size: 40px;
+    color: white;
+    margin: 1px;
+    border: 1px solid #ffffff;
+}
+
+.AssetOps:hover, .AssetOps:active {
+    background-color: #B8FC72;
+    cursor: pointer;
+}
+
+.Assurance {
+    background-color: #FC5D5D;
+    width: 300px;
+    height: 300px;
+    font-family: century gothic, sans-serif;
+    font-size: 40px;
+    color: white;
+    margin: 1px;
+    border: 1px solid #ffffff;
+}
+
+.Assurance:hover, .Assurance:active {
+    background-color: #FC815D;
+    cursor: pointer;
+}
+
+.BA {
+    background-color: #3399FF;
+    width: 300px;
+    height: 300px;
+    font-family: century gothic, sans-serif;
+    font-size: 40px;
+    color: white;
+    margin: 1px;
+    border: 1px solid #ffffff;
+}
+
+.BA:hover, .BA:active {
+    background-color: #7399FF;
+    cursor: pointer;
+}
+
+.Hotdesk {
+    background-color: #33cc9e;
+    width: 300px;
+    height: 300px;
+    font-family: century gothic, sans-serif;
+    font-size: 40px;
+    color: white;
+    margin: 1px;
+    border: 1px solid #ffffff;
+}
+
+.Hotdesk:hover, .Hotdesk:active {
+    background-color: #84D9B8;
+    cursor: pointer;
+}
