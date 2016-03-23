@@ -17,20 +17,20 @@
 		} else {
             echo "";
 		}
-        $staffGroup=htmlentities($_POST['staffGroupInput']);
-        echo $staffGroup;
-         $sql='SELECT * FROM staff WHERE StaffGroup='+$staffGroup;
+         $sql='SELECT * FROM staff ORDER BY StaffGroup';
         $retval=mysqli_query($con,$sql);
         if(!$retval){
             die("Could not get data: ".mysqli_error());
         }
-        foreach($retval as $staff){
+        $row=mysqli_fetch_all($retval,MYSQLI_ASSOC);
+        echo $row[0]["StaffID"];
+        /*foreach($retval as $staff){
             echo "<option value=";
             echo $staff["StaffID"];
             echo ">";
             echo $staff["StaffName"];
             echo "</option>";
-        }
+        }*/
     ?>
     <h3 align="center"> Please fill out the fields below: </h3>
     <form method="post">
