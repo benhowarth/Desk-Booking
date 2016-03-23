@@ -22,8 +22,8 @@ $(document).ready(function() {
             }
         }
     }
-
-    $('#staffGroupInput').change(function() {
+    function staffGroupInputChange(){
+        groupNo=-1;
         for(i=0;i<staffGroupList.length;i++){
             if(staffGroupList[i].GroupName==$("#staffGroupInput").val())
                 {
@@ -31,9 +31,21 @@ $(document).ready(function() {
                 }
         }
         currentGroup=staffGroupList[groupNo]
-        for(i=0;i<currentGroup.ar.length;i++){
-            $('#staffNameInput').append("<option value="+currentGroup.ar[i].StaffID+">"+currentGroup.ar[i].StaffName+"</option>");
+        $('#staffNameInput').empty();
+        if(groupNo==-1){
+            $('#staffNameInput').prop("disabled",true);
+            $('#staffNameInput').append("<option>No Staff in this group</option>");
         }
+        else{
+            $('#staffNameInput').prop("disabled",false);
+            for(i=0;i<currentGroup.ar.length;i++){
+                $('#staffNameInput').append("<option value="+currentGroup.ar[i].StaffID+">"+currentGroup.ar[i].StaffName+"</option>");
+            }
+        }
+    }
+    staffGroupInputChange();
+    $('#staffGroupInput').change(function() {
+        staffGroupInputChange();
     });
 
 });
