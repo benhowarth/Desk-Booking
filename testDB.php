@@ -67,7 +67,7 @@
 		if(!$retval){
 			die("Could not get data: ".mysqli_error());
 		}
-        echo "<br/>Bookings:<br/>";
+        echo "<br/>Bookings 1:<br/>";
         foreach($retval as $staff){
             echo $staff["BookingID"];
             echo ' ';
@@ -84,7 +84,7 @@
 		if(!$retval){
 			die("Could not get data: ".mysqli_error());
 		}
-        echo "<br/>Bookings:<br/>";
+        echo "<br/>Bookings 2:<br/>";
         foreach($retval as $staff){
             echo $staff["BookingID"];
             echo ' ';
@@ -98,8 +98,27 @@
             echo '<br/>';
         }
     
-		
+	   if($_SERVER['REQUEST_METHOD'] == 'POST'){
+			$staffID=htmlentities($_POST['staffIDInput']);
+			$deskID=htmlentities($_POST['deskIDInput']);
+			$startDate=htmlentities($_POST['startDateInput']);
+			$endDate=htmlentities($_POST['endDateInput']);
+			$sql="INSERT INTO bookings (StaffID,DeskID,StartDate,EndDate) VALUES ('$staffID','$deskID','$startDate','$endDate')";
+			$retval=mysqli_query($con,$sql);
+			if(!$retval){
+				die("Could not get data: ".mysqli_error());
+			}
+		}	
+    
 		mysqli_close($con);
 		?>
+        
+        <form method="post">
+            <input id="staffIDInput" name="staffIDInput"></input>
+            <input id="deskIDInput" name="deskIDInput"></input>
+            <input id="startDateInput" name="startDateInput" type="date"></input>
+            <input id="endDateInput" name="endDateInput" type="date"></input>
+            <input type="submit"></input>
+        </form>
 </body>
 </html>
