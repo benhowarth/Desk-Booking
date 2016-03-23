@@ -7,6 +7,7 @@
 	<h1 align="center"> Desk Booking Form </h1>
 </head>
 <body>
+    <p id="phpInfo">
     <?php
 		$host="localhost";
 		$user="root";
@@ -17,13 +18,14 @@
 		} else {
             echo "";
 		}
-         $sql='SELECT * FROM staff ORDER BY StaffGroup';
+         $sql='SELECT * FROM staff';
         $retval=mysqli_query($con,$sql);
         if(!$retval){
             die("Could not get data: ".mysqli_error());
         }
-        $row=mysqli_fetch_all($retval,MYSQLI_ASSOC);
-        echo $row[0]["StaffID"];
+        $staffList=mysqli_fetch_all($retval,MYSQLI_ASSOC);
+        //header('Content-Type: application/json');
+        echo json_encode(array('success' => TRUE, 'staffList' => $staffList));
         /*foreach($retval as $staff){
             echo "<option value=";
             echo $staff["StaffID"];
@@ -32,6 +34,7 @@
             echo "</option>";
         }*/
     ?>
+    </p>
     <h3 align="center"> Please fill out the fields below: </h3>
     <form method="post">
         <table>
