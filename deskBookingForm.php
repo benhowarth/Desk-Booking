@@ -7,7 +7,7 @@
 	<h1 align="center"> Desk Booking Form </h1>
 </head>
 <body>
-    <p id="phpInfo">
+    <p id="phpDefaultGroup">
     <?php
 		$host="localhost";
 		$user="root";
@@ -18,7 +18,33 @@
 		} else {
             echo "";
 		}
-         $sql='SELECT * FROM staff';
+        //header('Content-Type: application/json');
+        $defaultGroup=$_GET["defaultGroup"];
+        echo $defaultGroup;
+        /*foreach($retval as $staff){
+            echo "<option value=";
+            echo $staff["StaffID"];
+            echo ">";
+            echo $staff["StaffName"];
+            echo "</option>";
+        }*/
+    ?>
+    </p>
+    <p id="phpDeskName">
+    <?php
+        $deskIDUrl=$_GET["deskID"];
+        $sql="SELECT DeskName FROM `desks` WHERE DeskID=".$deskIDUrl;
+        $retval=mysqli_query($con,$sql);
+        if(!$retval){
+            die("Could not get data: ".mysqli_error());
+        }
+        $deskName=mysqli_fetch_all($retval,MYSQLI_ASSOC);
+        echo json_encode($deskName);
+    ?>
+    </p>
+    <p id="phpInfo">
+    <?php
+        $sql='SELECT * FROM staff';
         $retval=mysqli_query($con,$sql);
         if(!$retval){
             die("Could not get data: ".mysqli_error());
@@ -35,6 +61,7 @@
         }*/
     ?>
     </p>
+    <h2 id="deskName" align="center">DESK NAME HERE</h2>
     <h3 align="center"> Please fill out the fields below: </h3>
     <form method="post">
         <table>
@@ -46,12 +73,12 @@
             <td> Department </td> 
             <td>
                 <select id="staffGroupInput" name="staffGroupInput">
-                <option value"DCC"> DCC </option>
-                <option value"PAYG"> PAYG </option>
-                <option value"Asset Ops"> Asset Ops </option>
-                <option value"Assurance"> Assurance </option>
-                <option value"BA"> BA </option>
-                <option value"Hotdesk"> None (Hotdesking) </option>
+                <option value="DCC"> DCC </option>
+                <option value="PAYG"> PAYG </option>
+                <option value="AssetOps"> Asset Ops </option>
+                <option value="Assurance"> Assurance </option>
+                <option value="BA"> BA </option>
+                <option value="Hotdesk"> None (Hotdesking) </option>
                 </select>
             </td>
             </tr>
