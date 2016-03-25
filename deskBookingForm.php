@@ -104,7 +104,7 @@
                 if(!$retval){
                     die("Could not get data: ".mysqli_error());
                 }
-                header("Refresh:2; url=testDB.php");
+                header("Refresh:2; url=bookingConfirmation.php?id=".mysqli_insert_id($con));
             }	
 
         mysqli_close($con);
