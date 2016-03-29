@@ -34,6 +34,7 @@
                 echo ".";
                 echo "</p>";
             }
+            mysqli_close($con);
         ?>
     </body>
 </html>

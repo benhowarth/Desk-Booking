@@ -30,18 +30,6 @@
         }*/
     ?>
     </p>
-    <p id="phpDeskName">
-    <?php
-        $deskIDUrl=$_GET["deskID"];
-        $sql="SELECT DeskName FROM `desks` WHERE DeskID=".$deskIDUrl;
-        $retval=mysqli_query($con,$sql);
-        if(!$retval){
-            die("Could not get data: ".mysqli_error());
-        }
-        $deskName=mysqli_fetch_all($retval,MYSQLI_ASSOC);
-        echo json_encode($deskName);
-    ?>
-    </p>
     <p id="phpInfo">
     <?php
         $sql='SELECT * FROM staff';
@@ -61,7 +49,20 @@
         }*/
     ?>
     </p>
-    <h2 id="deskName" align="center">DESK NAME HERE</h2>
+    <h2 id="deskName" name="deskName" align="center">
+        <?php
+            $deskIDUrl=$_GET["deskID"];
+            $sql="SELECT DeskName FROM `desks` WHERE DeskID=".$deskIDUrl;
+            $retval=mysqli_query($con,$sql);
+            if(!$retval){
+                die("Could not get data: ".mysqli_error());
+            }
+            $deskNameAr=mysqli_fetch_array($retval,MYSQLI_ASSOC);
+            $deskName=$deskNameAr["DeskName"];
+            echo "2F/";
+            echo $deskName;
+        ?>    
+    </h2>
     <h3 align="center"> Please fill out the fields below: </h3>
     <form method="post">
         <table>
@@ -99,14 +100,57 @@
                 $deskID=$_GET["deskID"];
                 $startDate=htmlentities($_POST['startDateInput']);
                 $endDate=htmlentities($_POST['endDateInput']);
-                $sql="INSERT INTO bookings (StaffID,DeskID,StartDate,EndDate) VALUES ('$staffID','$deskID','$startDate','$endDate')";
+            
+                $sql="SELECT * FROM bookings WHERE deskID=".$deskID." AND EndDate >= '".$startDate."' AND StartDate <= '".$endDate."'";
                 $retval=mysqli_query($con,$sql);
                 if(!$retval){
-                    die("Could not get data: ".mysqli_error());
+                    die("Couldn't get data: ".mysqli_error());
                 }
-                header("Refresh:2; url=bookingConfirmation.php?id=".mysqli_insert_id($con));
-            }	
-
+                
+                foreach($retval as $bookings){
+                    echo $bookings["BookingID"];
+                    echo " ";
+                    echo $bookings["StaffID"];
+                    echo " ";
+                    echo $bookings["DeskID"];
+                    echo " ";
+                    echo $bookings["StartDate"];
+                    echo " ";
+                    echo $bookings["EndDate"];
+                    echo "<br/>";
+                }
+                $sql="SELECT * FROM bookings WHERE deskID=".$deskID." AND EndDate >= '".$startDate."'";
+                $retval=mysqli_query($con,$sql);
+                if(!$retval){
+                    die("Couldn't get data: ".mysqli_error());
+                }
+                echo "__booking2__";
+                foreach($retval as $bookings){
+                    echo $bookings["BookingID"];
+                    echo " ";
+                    echo $bookings["StaffID"];
+                    echo " ";
+                    echo $bookings["DeskID"];
+                    echo " ";
+                    echo $bookings["StartDate"];
+                    echo " ";
+                    echo $bookings["EndDate"];
+                    echo "<br/>";
+                }
+                
+                /*if(mysqli_num_rows($retval)==0){
+                    $sql="INSERT INTO bookings (StaffID,DeskID,StartDate,EndDate) VALUES ('$staffID','$deskID','$startDate','$endDate')";
+                    $retval=mysqli_query($con,$sql);
+                    if(!$retval){
+                        die("Couldn't insert data: ".mysqli_error());
+                    }
+                    header("Refresh:2; url=bookingConfirmation.php?id=".mysqli_insert_id($con));
+                }
+                else{
+                    header("Refresh:2; url=bookingDenied.php?startDate=".$startDate."&endDate=".$endDate."&deskID=".$deskIDUrl."&defaultGroup=".$defaultGroup);
+                }
+                exit;*/
+        }
         mysqli_close($con);
     ?>
 </body>

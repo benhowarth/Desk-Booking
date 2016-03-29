@@ -1,11 +1,8 @@
 $(document).ready(function() {
     $("#phpDefaultGroup").hide();
-    $("#phpDeskName").hide();
     $("#phpInfo").hide();
     $("#staffGroupInput option[value='"+$("#phpDefaultGroup").text().replace(/\s/g,"")+"']").prop("selected",true);
     
-    deskName=JSON.parse($("#phpDeskName").text())[0].DeskName;
-    $("#deskName").text("2F/"+deskName);
     
     staffList = JSON.parse($("#phpInfo").text()).staffList;
     staffGroupList=[];
