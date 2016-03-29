@@ -107,7 +107,7 @@
                     die("Couldn't get data: ".mysqli_error());
                 }
                 
-                foreach($retval as $bookings){
+                /*foreach($retval as $bookings){
                     echo $bookings["BookingID"];
                     echo " ";
                     echo $bookings["StaffID"];
@@ -118,7 +118,7 @@
                     echo " ";
                     echo $bookings["EndDate"];
                     echo "<br/>";
-                }
+                }*/
                 
                 if(mysqli_num_rows($retval)==0){
                     $sql="INSERT INTO bookings (StaffID,DeskID,StartDate,EndDate) VALUES ('$staffID','$deskID','$startDate','$endDate')";
