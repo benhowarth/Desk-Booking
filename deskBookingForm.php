@@ -119,26 +119,8 @@
                     echo $bookings["EndDate"];
                     echo "<br/>";
                 }
-                $sql="SELECT * FROM bookings WHERE deskID=".$deskID." AND EndDate >= '".$startDate."'";
-                $retval=mysqli_query($con,$sql);
-                if(!$retval){
-                    die("Couldn't get data: ".mysqli_error());
-                }
-                echo "__booking2__";
-                foreach($retval as $bookings){
-                    echo $bookings["BookingID"];
-                    echo " ";
-                    echo $bookings["StaffID"];
-                    echo " ";
-                    echo $bookings["DeskID"];
-                    echo " ";
-                    echo $bookings["StartDate"];
-                    echo " ";
-                    echo $bookings["EndDate"];
-                    echo "<br/>";
-                }
                 
-                /*if(mysqli_num_rows($retval)==0){
+                if(mysqli_num_rows($retval)==0){
                     $sql="INSERT INTO bookings (StaffID,DeskID,StartDate,EndDate) VALUES ('$staffID','$deskID','$startDate','$endDate')";
                     $retval=mysqli_query($con,$sql);
                     if(!$retval){
@@ -149,7 +131,7 @@
                 else{
                     header("Refresh:2; url=bookingDenied.php?startDate=".$startDate."&endDate=".$endDate."&deskID=".$deskIDUrl."&defaultGroup=".$defaultGroup);
                 }
-                exit;*/
+                exit;
         }
         mysqli_close($con);
     ?>
