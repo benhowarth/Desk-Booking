@@ -68,12 +68,15 @@
         <table>
             <tr>
                 <td> Name </td>
-                <td> <select id="staffNameInput" name="staffNameInput"></select> </td>
+                <td>
+                    <select id="staffNameInput" name="staffNameInput" required></select>
+                    <input id="guestNameInput" name="guestNameInput"></input>
+                </td>
             </tr>
             <tr>
             <td> Department </td> 
             <td>
-                <select id="staffGroupInput" name="staffGroupInput">
+                <select id="staffGroupInput" name="staffGroupInput" required>
                 <option value="DCC"> DCC </option>
                 <option value="PAYG"> PAYG </option>
                 <option value="AssetOps"> Asset Ops </option>
@@ -85,11 +88,11 @@
             </tr>
             <tr>
                 <td> Start Date </td>
-                <td> <input id="startDateInput" name="startDateInput" type="date"> </td> 
+                <td> <input id="startDateInput" name="startDateInput" type="date" required> </td> 
             </tr>
             <tr>
                 <td> End Date </td>
-                <td> <input id="endDateInput" name="endDateInput" type="date"> </td>
+                <td> <input id="endDateInput" name="endDateInput" type="date" required> </td>
             </tr>
         </table>
         <input type="submit">
@@ -97,9 +100,11 @@
     <?php
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $staffID=htmlentities($_POST['staffNameInput']);
+                $guestName=htmlentities($_POST['guestNameInput']);
                 $deskID=$_GET["deskID"];
                 $startDate=htmlentities($_POST['startDateInput']);
                 $endDate=htmlentities($_POST['endDateInput']);
+                $staffGroup=htmlentities($_POST['staffGroupInput']);
             
                 $sql="SELECT * FROM bookings WHERE deskID=".$deskID." AND EndDate >= '".$startDate."' AND StartDate <= '".$endDate."'";
                 $retval=mysqli_query($con,$sql);
@@ -119,9 +124,17 @@
                     echo $bookings["EndDate"];
                     echo "<br/>";
                 }*/
+                //echo $guestName;
                 
                 if(mysqli_num_rows($retval)==0){
-                    $sql="INSERT INTO bookings (StaffID,DeskID,StartDate,EndDate) VALUES ('$staffID','$deskID','$startDate','$endDate')";
+                    if($staffGroup!="Hotdesk"){
+                        $sql="INSERT INTO bookings (StaffID,DeskID,StartDate,EndDate) VALUES ('$staffID','$deskID','$startDate','$endDate')";
+                    }
+                    
+                    else{
+                        $sql="INSERT INTO bookings (StaffID,DeskID,StartDate,EndDate,GuestName
+) VALUES ('0','$deskID','$startDate','$endDate','$guestName')";
+                    }
                     $retval=mysqli_query($con,$sql);
                     if(!$retval){
                         die("Couldn't insert data: ".mysqli_error());

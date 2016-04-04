@@ -15,7 +15,7 @@
             } else {
                 echo "";
             }
-            $sql='SELECT bookings.BookingID, staff.StaffName, desks.DeskName, bookings.StartDate, bookings.EndDate FROM bookings INNER JOIN staff ON bookings.StaffID=staff.StaffID INNER JOIN desks ON bookings.DeskID=desks.DeskID WHERE BookingID='.$_GET['id'];
+            $sql='SELECT bookings.BookingID, staff.StaffName, desks.DeskName, bookings.StartDate, bookings.EndDate, bookings.GuestName FROM bookings INNER JOIN staff ON bookings.StaffID=staff.StaffID INNER JOIN desks ON bookings.DeskID=desks.DeskID WHERE BookingID='.$_GET['id'];
             $retval=mysqli_query($con,$sql);
             if(!$retval){
                 die("Could not get data: ".mysqli_error());
@@ -27,6 +27,13 @@
                 echo "2F/",$staff["DeskName"];
                 echo ' is reserved for ';
                 echo $staff["StaffName"];
+                
+                if($staff["GuestName"]){
+                    echo" (";
+                    echo $staff["GuestName"];
+                    echo")";
+                }
+                
                 echo ' from ';
                 echo $staff["StartDate"];
                 echo ' to ';

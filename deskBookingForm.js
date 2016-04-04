@@ -46,10 +46,66 @@ $(document).ready(function() {
                 $('#staffNameInput').append("<option value="+currentGroup.ar[i].StaffID+">"+currentGroup.ar[i].StaffName+"</option>");
             }
         }
+        if($("#staffGroupInput").val()=="Hotdesk"){
+            $("#guestNameInput").show();
+        }
+        else{
+            $("#guestNameInput").hide();
+        }
     }
     staffGroupInputChange();
+    
+    
+    function formatDate(date){
+        var d=new Date(date),
+        month=''+(d.getMonth()+1),
+        day=''+d.getDate(),
+        year=d.getFullYear();
+        
+        if(month.length<2){month='0'+month;}
+        if(day.length<2){day='0'+day;}
+        
+        dateFinal=year+"-"+month+"-"+day;
+        return dateFinal;
+    }
+    
+    now=new Date();
+    
+    //$('#startDateInput').val(formatDate(now));
+    //$('#endDateInput').val(formatDate(now));
+    $('#startDateInput').prop("min",formatDate(now));
+    $('#endDateInput').prop("min",formatDate(now));
+    
     $('#staffGroupInput').change(function() {
         staffGroupInputChange();
+    });
+    
+    $('#startDateInput').change(function() {
+        //staffGroupInputChange();
+        //$("#endDateInput").prop("min",$('#startDateInput').val());
+        start=new Date($('#startDateInput').val());
+        startPlusTwo=new Date();
+        startPlusTwo.setDate(start.getDate()+2);
+        if(startPlusTwo<now){
+            //more than two days
+            console.log("more than 2");
+            $("#staffGroupInput option[value='"+$("#phpDefaultGroup").text().replace(/\s/g,"")+"']").prop("selected",true);
+            $("#staffGroupInput").prop("disabled",true);
+            staffGroupInputChange();
+        }
+        else{
+            //less than or equal to two days
+            console.log("2 or less");
+            $("#staffGroupInput").prop("disabled",false);
+            staffGroupInputChange();
+            
+        }
+        //now=now.GetFullYear()+""+now.
+    });
+    
+    $('#endDateInput').change(function() {
+        //staffGroupInputChange();
+        //$("#startDateInput").prop("max",$('#endDateInput').val());
     });
 
 });
