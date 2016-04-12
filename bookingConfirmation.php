@@ -1,9 +1,10 @@
 <html>
     <head>
         <title>Booking Confirmation</title>
+        <link rel='stylesheet' href='deskBookingForm.css'/>
     </head>
     <body>
-        <h1>Booking Confirmed</h1>
+        <h1 align="center">Booking Confirmed</h1>
         <p>Your booking ID is: <?php /* prints the booking id for the user's use */ echo $_GET['id'] ?></p>
         <?php
             //the ip of the database (localhost for testing)
@@ -62,5 +63,8 @@
             //close the database connection
             mysqli_close($con);
         ?>
+        <form method="post">
+            <input type="submit"></input>
+        </form>
     </body>
 </html>

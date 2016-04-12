@@ -1,9 +1,10 @@
 <html>
     <head>
         <title>Booking Confirmation</title>
+        <link rel='stylesheet' href='deskBookingForm.css'/>
     </head>
     <body>
-        <h1>Booking Denied</h1>
+        <h1 align="center">Booking Denied</h1>
         <?php
             //the ip of the database (localhost for testing)
             $host="localhost";
