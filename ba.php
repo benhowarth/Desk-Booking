@@ -10,7 +10,6 @@
 <body>
 
     <div>
-        <img src="//c1.staticflickr.com/1/496/18725661484_0739259123_b.jpg" alt="Almel Logo" style="width:300px;height:70px;">
         <a href="#" 
         class="myButton"
         style="float: right;" 

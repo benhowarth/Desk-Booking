@@ -13,7 +13,6 @@
 <div id="header"></div>
 <body>
     <div align="center">
-        <img src="//c1.staticflickr.com/1/496/18725661484_0739259123_b.jpg" alt="Almel Logo" style="width:600px;height:140px;">
         <h1> SMART IT Project Desk Map </h1>
         <br>
     </div>
