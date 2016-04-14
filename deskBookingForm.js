@@ -76,9 +76,13 @@ $(document).ready(function() {
                 //add the staff member's name as an option on the staffNameInput dropdown (with the value returned by each option, when selected, set to staffID)
                 $('#staffNameInput').append("<option value="+currentGroup.ar[i].StaffID+">"+currentGroup.ar[i].StaffName+"</option>");
             }
+        staffNameInputChange();
         }
+    }
+    
+    function staffNameInputChange(){
         //if the user selects 'Hotdesk' from the department dropdown
-        if($("#staffGroupInput").val()=="Hotdesk"){
+        if($("#staffNameInput").val()=="0"){
             //show the guestNameInput box for the user to type in a name manually
             $("#guestNameInput").show();
         }
@@ -88,55 +92,16 @@ $(document).ready(function() {
             $("#guestNameInput").hide();
         }
     }
+    
     //call the staffGroupInputChange function
     staffGroupInputChange();
-    
-    
-    function formatDate(date){
-        var d=new Date(date),
-        month=''+(d.getMonth()+1),
-        day=''+d.getDate(),
-        year=d.getFullYear();
-        
-        if(month.length<2){month='0'+month;}
-        if(day.length<2){day='0'+day;}
-        
-        dateFinal=year+"-"+month+"-"+day;
-        return dateFinal;
-    }
-    
-    now=new Date();
-    
-    $('#startDateInput').prop("min",formatDate(now));
-    $('#endDateInput').prop("min",formatDate(now));
+    staffNameInputChange();
     
     $('#staffGroupInput').change(function() {
         staffGroupInputChange();
     });
-    
-    $('#startDateInput').change(function() {
-        start=new Date($('#startDateInput').val());
-        startPlusTwo=new Date();
-        startPlusTwo.setDate(start.getDate()+2);
-        if(startPlusTwo<now){
-            //more than two days
-            console.log("more than 2");
-            $("#staffGroupInput option[value='"+$("#phpDefaultGroup").text().replace(/\s/g,"")+"']").prop("selected",true);
-            $("#staffGroupInput").prop("disabled",true);
-            staffGroupInputChange();
-        }
-        else{
-            //less than or equal to two days
-            console.log("2 or less");
-            $("#staffGroupInput").prop("disabled",false);
-            staffGroupInputChange();
-            
-        }
-    });
-    
-    $('#endDateInput').change(function() {
-        staffGroupInputChange();
-        $("#startDateInput").prop("max",$('#endDateInput').val());
+    $("#staffNameInput").change(function(){
+        staffNameInputChange();
     });
 
 });

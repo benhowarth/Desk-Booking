@@ -1,25 +1,14 @@
 <html>
     <head>
         <title>Booking Confirmation</title>
-        <link rel='stylesheet' href='deskBookingForm.css'/>
+        <link rel='stylesheet' href='bookingConfirmation.css'/>
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     </head>
     <body>
         <h1 align="center">Booking Confirmed</h1>
         <p>Your booking ID is: <?php /* prints the booking id for the user's use */ echo $_GET['id'] ?></p>
         <?php
-            //the ip of the database (localhost for testing)
-            $host="localhost";
-            //the username for accessing the database
-            $user="root";
-            //the password for accessing the database
-            $password="";
-            //the mysqli connection variable, including the ip, username, password and the database name.
-            $con=mysqli_connect($host,$user,$password,'deskbooking');
-            //if statement for testing if the cliet has connected
-            if(!$con) {
-                //prints an error if not connected
-                echo "A connection to the database cannot be found";
-            }
+            include "connect.php";
             //sql query to use the booking id to get the booking's id, name of the staff member, name of the desk, start and end date and the name of the guest, if it exists using inner joins of the three tables bookings, staff and desks
             $sql='SELECT bookings.BookingID, staff.StaffName, desks.DeskName, bookings.StartDate, bookings.EndDate, bookings.GuestName FROM bookings INNER JOIN staff ON bookings.StaffID=staff.StaffID INNER JOIN desks ON bookings.DeskID=desks.DeskID WHERE BookingID='.$_GET['id'];
             //executing the query
@@ -63,8 +52,22 @@
             //close the database connection
             mysqli_close($con);
         ?>
-        <form method="post">
-            <input type="submit"></input>
+        <form id="deleteForm" method="post" style="margin:0 auto;" align="center">
+            <input id="deleteButton" class="myButton" onclick="document.deleteForm.submit();" value="Delete This Booking" align="center" type="submit"></input>
         </form>
+        <?php
+            include "connect.php";
+            if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                $sql="DELETE FROM bookings WHERE BookingID=".$_GET['id'];
+                //executing the above sql query with the connection already established
+                $retval=mysqli_query($con,$sql);
+                //if no data can be returned
+                if(!$retval){
+                    //error is returned that the data could not be deleted with the generated mysqli error
+                    die("Could not delete data: ".mysqli_error());
+                }
+                header("Refresh:2; url=bookingDeleted.php");
+            }
+        ?>
     </body>
 </html>

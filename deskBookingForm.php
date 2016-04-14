@@ -70,7 +70,7 @@
         ?>    
     </h2>
     <h3 align="center"> Please fill out the fields below: </h3>
-    <form method="post">
+    <form name="deskForm" id="deskForm" method="post">
         <table>
             <tr>
                 <td> Name </td>
@@ -92,48 +92,40 @@
                 </select>
             </td>
             </tr>
-            <tr>
-                <td> Start Date </td>
-                <td> <input id="startDateInput" name="startDateInput" type="date" required> </td> 
-            </tr>
-            <tr>
-                <td> End Date </td>
-                <td> <input id="endDateInput" name="endDateInput" type="date" required> </td>
-            </tr>
         </table>
-        <input type="submit">
+        <input id="submitButton" class="myButton" onclick="document.deskForm.submit();" value="Submit" type="submit"></input>
     </form>
     <?php
         //if the above form is submitted
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 //getting the ID value from the staffNameInput dropdown menu, which displays the name but returns the ID as the value
                 $staffID=htmlentities($_POST['staffNameInput']);
-                //getting the guestName from the guestNameInput, which is only visible if the user is 'hotdesking' and therefore a guest, otherwise it should not be seen and therefore blank
+                //getting the guestName from the guestNameInput, which is only visible if the user is 'hotdesking' and a guest otherwise it should not be seen and therefore blank
                 $guestName=htmlentities($_POST['guestNameInput']);
                 //getting the deskID variable that was parsed into the url
                 $deskID=$_GET["deskID"];
                 //getting the date value of the booking startDateInput
-                $startDate=htmlentities($_POST['startDateInput']);
+                $startDate=$_GET["startDate"];
                 //getting the date value of the booking endDateInput    
-                $endDate=htmlentities($_POST['endDateInput']);
+                $endDate=$_GET["endDate"];
                 //getting the string value of the staffGroupInput
                 $staffGroup=htmlentities($_POST['staffGroupInput']);
             
                 //sql query that checks for bookings for the desk with the deskID selected between the start and end dates selected
-                $sql="SELECT * FROM bookings WHERE deskID=".$deskID." AND EndDate >= '".$startDate."' AND StartDate <= '".$endDate."'";
+                $sql="SELECT * FROM bookings WHERE StaffID='".$staffID."' AND (SELECT DATEDIFF(EndDate,'".$startDate."'))=2 OR (SELECT DATEDIFF(StartDate,'".$endDate."'))=-2";
             
                 //executing the above sql query with the connection already established
                 $retval=mysqli_query($con,$sql);
                 //if no data can be returned
                 if(!$retval){
                     //error is returned that the data could not be retrieved with the generated mysqli error
-                    die("Could not get data: ".mysqli_error());
+                    die("Could not get data: ".mysqli_error($con));
                 }
+                $resultAr=mysqli_fetch_all($retval,MYSQLI_ASSOC);;
+                echo json_encode(array('success' => TRUE, 'bookings' => $resultAr));
                 
-                //if there are no bookings within that timeframe returned
                 if(mysqli_num_rows($retval)==0){
-                    //if the user is not 'hotdesking'
-                    if($staffGroup!="Hotdesk"){
+                    if($staffName!="Guest"){
                         //sql query to insert the staffID, deskID, startDate and endDate into a new entry in the bookings table
                         $sql="INSERT INTO bookings (StaffID,DeskID,StartDate,EndDate) VALUES ('$staffID','$deskID','$startDate','$endDate')";
                     }
@@ -141,23 +133,21 @@
                     else{
                         //sql query to insert the staffID, deskID, startDate, endDate and guestName (as they are a guest and aren't in the staff table) into a new entry in the bookings table
                         $sql="INSERT INTO bookings (StaffID,DeskID,StartDate,EndDate,GuestName
-) VALUES ('0','$deskID','$startDate','$endDate','$guestName')";
+    ) VALUES ('0','$deskID','$startDate','$endDate','$guestName')";
                     }
-                    
+
                     //execute the chosen query, based on whether the user is 'hotdesking' or not with the established database connection
                     $retval=mysqli_query($con,$sql);
                     //if the query cannot be executed
                     if(!$retval){
                         //print an error message
-                        die("Couldn't insert data: ".mysqli_error());
+                        die("Couldn't insert data: ".mysqli_error($con));
                     }
                     //redirect to the booking confirmation page, parsing the bookingID for further use on that page
-                    header("Refresh:2; url=bookingConfirmation.php?id=".mysqli_insert_id($con));
+                    echo "<script> document.location.href='bookingConfirmation.php?id=".mysqli_insert_id($con).";</script>";
                 }
-                //if there are bookings within that timeframe returned
                 else{
-                    //redirect to the booking denied page, parsing the startDate, endDate, deskID and defaultGroup to allow for a proper error to be returned with the correct information
-                    header("Refresh:2; url=bookingDenied.php?startDate=".$startDate."&endDate=".$endDate."&deskID=".$deskIDUrl."&defaultGroup=".$defaultGroup);
+                    echo "<script> document.location.href='bookingDenied.php?staffID=".$staffID."&startDate=".$startDate."&endDate=".$endDate."&guestName=".$guestName."';</script>";
                 }
                 exit;
         }

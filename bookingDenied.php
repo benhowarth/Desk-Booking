@@ -1,66 +1,55 @@
 <html>
     <head>
-        <title>Booking Confirmation</title>
-        <link rel='stylesheet' href='deskBookingForm.css'/>
+        <title>Booking Denied</title>
+        <link rel='stylesheet' href='bookingDenied.css'/>
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     </head>
     <body>
         <h1 align="center">Booking Denied</h1>
+        <p>Sorry you can't book this desk as you have already booked your maximum number of days for this week.</p>
+        <br/>
+        <p>The bookings causing this issue are:</p>
+        <br/>
         <?php
-            //the ip of the database (localhost for testing)
-            $host="localhost";
-            //the username for accessing the database
-            $user="root";
-            //the password for accessing the database
-            $password="";
-            //the mysqli connection variable, including the ip, username, password and the database name.
-            $con=mysqli_connect($host,$user,$password,'deskbooking');
-            //if statement for testing if the cliet has connected
-            if(!$con) {
-                //prints an error if not connected
-                echo "A connection to the database cannot be found";
-            }
-            
-            //get deskID from url
-            $deskID=$_GET["deskID"];
+            include 'connect.php';
         
-            //sql query to get the deskName from the deskID
-            $sql="SELECT DeskName FROM `desks` WHERE DeskID=".$deskID;
-            //executing the query
+            $staffID=$_GET['staffID'];
+            $startDate=$_GET['startDate'];
+            $endDate=$_GET['endDate'];
+            $guestName=$_GET['guestName'];
+                
+            //if user isn't a guest
+            if($staffID!="0"){
+                //sql query that checks for bookings for the desk with the deskID selected between the start and end dates selected
+                $sql="SELECT * FROM bookings INNER JOIN desks ON bookings.DeskID=desks.DeskID WHERE StaffID='".$staffID."' AND (SELECT DATEDIFF(EndDate,'".$startDate."'))=2 OR (SELECT DATEDIFF(StartDate,'".$endDate."'))=-2";
+            }
+            //if user is a guest
+            else{
+                $sql="SELECT * FROM bookings INNER JOIN desks ON bookings.DeskID=desks.DeskID WHERE GuestName='".$guestName."' AND (SELECT DATEDIFF(EndDate,'".$startDate."'))=2 OR (SELECT DATEDIFF(StartDate,'".$endDate."'))=-2";
+            }
+
+            //executing the above sql query with the connection already established
             $retval=mysqli_query($con,$sql);
             //if no data can be returned
             if(!$retval){
                 //error is returned that the data could not be retrieved with the generated mysqli error
-                die("Could not get data: ".mysqli_error());
+                die("Could not get data: ".mysqli_error($con));
             }
-            //convert the result to an associative array
-            $deskName=mysqli_fetch_array($retval,MYSQLI_ASSOC);
-            //get the deskName from the new results array
-            $deskName=$deskName["DeskName"];
         
-            //get the default group from the url
-            $defaultGroup=$_GET["defaultGroup"];
-            //get the start date from the url
-            $startDate=$_GET["startDate"];
-            //get the end date from the url
-            $endDate=$_GET["endDate"];
-            //print opening paragraph tag and desk prefix
-            echo "<p> Sorry, you can't book 2F/";
-            //print the desk name
-            echo $deskName;
-            echo " for ";
-            //print the start date
-            echo $startDate;
-            echo " to ";
-            //print the end date
-            echo $endDate;
-            echo ".";
-            //print 2 line breaks
-            echo "<br/>";
-            echo "<br/>";
-            //print a link back to the desk booking form (parsing the same variables, deskID and defaultGroup)
-            echo "<a href='deskBookingForm.php?deskID=".$deskID."&defaultGroup=".$defaultGroup."'>Go Back?</a>";
-            //close the database connection
-            mysqli_close($con);
+            foreach($retval as $booking){
+                echo '<p>';
+                echo 'Desk 2F/';
+                echo $booking['DeskName'];
+                echo ' for ';
+                echo $booking['StartDate'];
+                echo ' to ';
+                echo $booking['EndDate'];
+                echo ' (Booking ID: ';
+                echo $booking['BookingID'];
+                echo ')';
+                echo '</p>';
+                echo '<br/>';
+            }
         ?>
     </body>
 </html>

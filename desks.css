@@ -1,0 +1,10 @@
+.disabledDesk, .disabledDesk:hover {
+    background-color: #AAA;
+    width: 150px;
+    height: 75px;
+    font-family: century gothic, sans-serif;
+    font-size: 23px;
+    color: white;
+    cursor:default;
+    border: 1px solid #ffffff;
+}
