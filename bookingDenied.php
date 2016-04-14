@@ -6,7 +6,7 @@
     </head>
     <body>
         <h1 align="center">Booking Denied</h1>
-        <p>Sorry you can't book this desk as you have already booked your maximum number of days for this week.</p>
+        <p>Sorry, you can't book this desk as you have already booked your maximum number of days for this week.</p>
         <br/>
         <p>The bookings causing this issue are:</p>
         <br/>
@@ -21,11 +21,11 @@
             //if user isn't a guest
             if($staffID!="0"){
                 //sql query that checks for bookings for the desk with the deskID selected between the start and end dates selected
-                $sql="SELECT * FROM bookings INNER JOIN desks ON bookings.DeskID=desks.DeskID WHERE StaffID='".$staffID."' AND (SELECT DATEDIFF(EndDate,'".$startDate."'))=2 OR (SELECT DATEDIFF(StartDate,'".$endDate."'))=-2";
+                $sql="SELECT * FROM bookings INNER JOIN desks ON bookings.DeskID=desks.DeskID WHERE StaffID='".$staffID."' AND ((SELECT DATEDIFF(EndDate,'".$startDate."'))<=2 AND (SELECT DATEDIFF(StartDate,'".$endDate."'))>=-2)";
             }
             //if user is a guest
             else{
-                $sql="SELECT * FROM bookings INNER JOIN desks ON bookings.DeskID=desks.DeskID WHERE GuestName='".$guestName."' AND (SELECT DATEDIFF(EndDate,'".$startDate."'))=2 OR (SELECT DATEDIFF(StartDate,'".$endDate."'))=-2";
+                $sql="SELECT * FROM bookings INNER JOIN desks ON bookings.DeskID=desks.DeskID WHERE GuestName='".$guestName."' AND ((SELECT DATEDIFF(EndDate,'".$startDate."'))<=2 AND (SELECT DATEDIFF(StartDate,'".$endDate."'))>=-2)";
             }
 
             //executing the above sql query with the connection already established

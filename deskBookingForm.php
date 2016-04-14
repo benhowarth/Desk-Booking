@@ -111,8 +111,14 @@
                 //getting the string value of the staffGroupInput
                 $staffGroup=htmlentities($_POST['staffGroupInput']);
             
+                if($staffID!="0"){
                 //sql query that checks for bookings for the desk with the deskID selected between the start and end dates selected
-                $sql="SELECT * FROM bookings WHERE StaffID='".$staffID."' AND (SELECT DATEDIFF(EndDate,'".$startDate."'))=2 OR (SELECT DATEDIFF(StartDate,'".$endDate."'))=-2";
+                $sql="SELECT * FROM bookings WHERE StaffID='".$staffID."' AND ((SELECT DATEDIFF(EndDate,'".$startDate."'))<=2 AND (SELECT DATEDIFF(StartDate,'".$endDate."'))>=-2)";
+            }
+            //if user is a guest
+            else{
+                $sql="SELECT * FROM bookings WHERE GuestName='".$guestName."' AND ((SELECT DATEDIFF(EndDate,'".$startDate."'))<=2 AND (SELECT DATEDIFF(StartDate,'".$endDate."'))>=-2)";
+            }
             
                 //executing the above sql query with the connection already established
                 $retval=mysqli_query($con,$sql);
@@ -125,7 +131,7 @@
                 echo json_encode(array('success' => TRUE, 'bookings' => $resultAr));
                 
                 if(mysqli_num_rows($retval)==0){
-                    if($staffName!="Guest"){
+                    if($staffID!="0"){
                         //sql query to insert the staffID, deskID, startDate and endDate into a new entry in the bookings table
                         $sql="INSERT INTO bookings (StaffID,DeskID,StartDate,EndDate) VALUES ('$staffID','$deskID','$startDate','$endDate')";
                     }
@@ -144,10 +150,10 @@
                         die("Couldn't insert data: ".mysqli_error($con));
                     }
                     //redirect to the booking confirmation page, parsing the bookingID for further use on that page
-                    echo "<script> document.location.href='bookingConfirmation.php?id=".mysqli_insert_id($con).";</script>";
+                    die("<script>location.href = 'bookingConfirmation.php?id=".mysqli_insert_id($con)."';</script>");
                 }
                 else{
-                    echo "<script> document.location.href='bookingDenied.php?staffID=".$staffID."&startDate=".$startDate."&endDate=".$endDate."&guestName=".$guestName."';</script>";
+                    die("<script>location.href = 'bookingDenied.php?staffID=".$staffID."&startDate=".$startDate."&endDate=".$endDate."&guestName=".$guestName."';</script>");
                 }
                 exit;
         }
