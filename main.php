@@ -14,6 +14,7 @@
 <body>
     <div align="center">
         <h1> SMART IT Project Desk Map </h1>
+        <h3 align="center"> Click on a free desk to book it: </h3>
         <br>
     </div>
     <?php include "checkBooking.php"; ?>

@@ -47,12 +47,30 @@
             
             linkExtras=".php?s="+dates[0]+"&e="+dates[dates.length-1];
         }
-        $(".DCC").on("click",function(){getLinkExtras();location.href="dcc"+linkExtras;});
-        $(".PAYG").on("click",function(){getLinkExtras();location.href="payg"+linkExtras;});
-        $(".AssetOps").on("click",function(){getLinkExtras();location.href="assetops"+linkExtras;});
-        $(".Assurance").on("click",function(){getLinkExtras();location.href="assurance"+linkExtras;});
-        $(".BA").on("click",function(){getLinkExtras();location.href="ba"+linkExtras;});
-        $(".Hotdesk").on("click",function(){getLinkExtras();location.href="main"+linkExtras;});
+        mSecDay=86400000;
+        function goToRota(rota){
+            getLinkExtras();
+            now=new Date();
+            nowPlusTwo=new Date(now+(mSecDay*2));
+            start=new Date(dates[0]);
+            startPlusTwo=new Date(start.getTime()+(mSecDay*2));
+            end=new Date(dates[dates.length-1]);
+            endPlusTwo=new Date(end.getTime()+(mSecDay*2));
+            //more than two days
+            if(nowPlusTwo<start){
+                location.href=rota+linkExtras;
+            }
+            else{
+                location.href="main"+linkExtras;
+            }
+        }
+        
+        $(".DCC").on("click",function(){goToRota("dcc");});
+        $(".PAYG").on("click",function(){goToRota("payg");});
+        $(".AssetOps").on("click",function(){goToRota("assetops");});
+        $(".Assurance").on("click",function(){goToRota("assurance");});
+        $(".BA").on("click",function(){goToRota("ba");});
+        $(".Hotdesk").on("click",function(){goToRota("hotdesk");});
     </script>
 </body>
 </html>

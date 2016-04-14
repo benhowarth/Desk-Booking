@@ -12,7 +12,6 @@
     <div>
         <a href="#" 
         class="myButton"
-        style="float: right;" 
         onClick="location.href='index.php'">Back to Rota Selection</a>
     </input>
     </div>
