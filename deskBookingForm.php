@@ -45,6 +45,7 @@
         echo json_encode(array('success' => TRUE, 'staffList' => $staffList));
     ?>
     </p>
+    <p id="moreThanTwoDaysBefore"><?php echo $_GET["moreThanTwoDaysBefore"] ?></p>
     <h2 id="deskName" name="deskName" align="center">
         <?php
             //get the deskID variable from the url
@@ -93,7 +94,9 @@
             </td>
             </tr>
         </table>
-        <input id="submitButton" class="myButton" onclick="document.deskForm.submit();" value="Submit" type="submit"></input>
+        <div align="center">
+            <input id="submitButton" class="myButton" onclick="document.deskForm.submit();" value="Submit" type="submit" align="center"></input>
+        </div>
     </form>
     <?php
         //if the above form is submitted
@@ -128,7 +131,8 @@
                     die("Could not get data: ".mysqli_error($con));
                 }
                 $resultAr=mysqli_fetch_all($retval,MYSQLI_ASSOC);;
-                echo json_encode(array('success' => TRUE, 'bookings' => $resultAr));
+                //echo json_encode(array('success' => TRUE, 'bookings' => $resultAr));
+                //echo json_encode(array('success' => TRUE, 'bookings' => $resultAr));
                 
                 if(mysqli_num_rows($retval)==0){
                     if($staffID!="0"){

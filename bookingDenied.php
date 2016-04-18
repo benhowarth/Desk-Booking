@@ -38,18 +38,23 @@
         
             foreach($retval as $booking){
                 echo '<p>';
-                echo 'Desk 2F/';
+                echo "<span class='badBooking'><strong>2F/";
                 echo $booking['DeskName'];
-                echo ' for ';
+                echo '</strong> for <strong>';
                 echo $booking['StartDate'];
-                echo ' to ';
+                echo '</strong> to <strong>';
                 echo $booking['EndDate'];
-                echo ' (Booking ID: ';
+                echo '</strong> (Booking ID: ';
                 echo $booking['BookingID'];
                 echo ')';
-                echo '</p>';
+                echo '</span></p>';
                 echo '<br/>';
             }
+            echo '<br/>';
+            echo '<p>Please close this window and try another date.</p>';
         ?>
+        <form align="center">
+            <input type="button" value="Restart Your Booking" onclick="self.close()" class="myButton"></input>
+        </form>
     </body>
 </html>

@@ -1,6 +1,7 @@
 h1 {
     font-family: century gothic, sans-serif;
     font-size: 50px;
+    padding-top: 10px;
 }
 
 h3 {
@@ -15,12 +16,15 @@ body {
 
 p {
     font-family: century gothic, sans-serif;
-    font-size: 14;
+    font-size: 16;
 }
 
-td {
-    padding: 5px;
+div {
+    padding-left: 25px;
+    padding-bottom: 30px;
+    padding-top: 10px;
 }
+
 .myButton {
 	-moz-box-shadow: inset 0px 1px 0px 0px #e67a73;
 	-webkit-box-shadow:inset 0px 1px 0px 0px #e67a73;

@@ -51,17 +51,19 @@
         function goToRota(rota){
             getLinkExtras();
             now=new Date();
-            nowPlusTwo=new Date(now+(mSecDay*2));
+            nowPlusTwo=new Date(now.getTime()+(mSecDay*2));
             start=new Date(dates[0]);
             startPlusTwo=new Date(start.getTime()+(mSecDay*2));
             end=new Date(dates[dates.length-1]);
             endPlusTwo=new Date(end.getTime()+(mSecDay*2));
             //more than two days
-            if(nowPlusTwo<start){
-                location.href=rota+linkExtras;
+            if(nowPlusTwo.getTime()<start.getTime()){
+                location.href=rota+linkExtras+"&moreThanTwoDaysBefore=true";
+                //console.log(">2");
             }
             else{
-                location.href="main"+linkExtras;
+                location.href="main"+linkExtras+"&moreThanTwoDaysBefore=false";
+                //console.log("<=2");
             }
         }
         

@@ -6,7 +6,7 @@
     </head>
     <body>
         <h1 align="center">Booking Confirmed</h1>
-        <p>Your booking ID is: <?php /* prints the booking id for the user's use */ echo $_GET['id'] ?></p>
+        <p>Your booking ID is: <?php /* prints the booking id for the user's use */ echo "<strong>";echo $_GET['id'];echo "</strong>"; ?></p>
         <?php
             include "connect.php";
             //sql query to use the booking id to get the booking's id, name of the staff member, name of the desk, start and end date and the name of the guest, if it exists using inner joins of the three tables bookings, staff and desks
@@ -16,7 +16,7 @@
             //if no data can be returned
             if(!$retval){
                 //error is returned that the data could not be retrieved with the generated mysqli error
-                die("Could not get data: ".mysqli_error());
+                die("Could not get data: ".mysqli_error($con));
             }
             //for every row returned, run this loop (should only be one row, but this format is used for simplicity's sake)
             foreach($retval as $staff){
@@ -26,8 +26,8 @@
                 echo "<p>";
                 echo 'Desk ';
                 //print desk prefix and booked desk name
-                echo "2F/",$staff["DeskName"];
-                echo ' is reserved for ';
+                echo "<strong>2F/",$staff["DeskName"];
+                echo '</strong> is reserved for ';
                 //print the staff member's name that booked the desk
                 echo $staff["StaffName"];
                 
@@ -39,13 +39,13 @@
                     echo")";
                 }
                 
-                echo ' from ';
+                echo ' from <strong>';
                 //print the starting date of the booking
                 echo $staff["StartDate"];
-                echo ' to ';
+                echo '</strong> to <strong>';
                 //print the ending date of the booking
                 echo $staff["EndDate"];
-                echo ".";
+                echo "</strong>.";
                 //print ending paragraph tag
                 echo "</p>";
             }
@@ -54,6 +54,7 @@
         ?>
         <form id="deleteForm" method="post" style="margin:0 auto;" align="center">
             <input id="deleteButton" class="myButton" onclick="document.deleteForm.submit();" value="Delete This Booking" align="center" type="submit"></input>
+            <input id="printButton" class="myButton" onclick="window.print();" value="Print This Page" align="center" type="submit"></input>
         </form>
         <?php
             include "connect.php";

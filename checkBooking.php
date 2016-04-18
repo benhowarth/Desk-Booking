@@ -1,5 +1,6 @@
 <p id="s"><?php echo $_GET['s']; ?></p>
 <p id="e"><?php echo $_GET['e']; ?></p>
+<p id="moreThanTwoDaysBefore"><?php echo $_GET['moreThanTwoDaysBefore']; ?></p>
 <p id="bookings">
     <?php
         include 'connect.php';

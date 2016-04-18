@@ -4,6 +4,8 @@ $(document).ready(function() {
     $("#phpDefaultGroup").hide();
     //hide the element that the staff member json array is printed to via php
     $("#phpInfo").hide();
+    $("#moreThanTwoDaysBefore").hide();
+    moreThanTwoDaysBefore=JSON.parse($("#moreThanTwoDaysBefore").text());
     //set the staffGroupInput's value to the seating group of the desk (the string replace function takes out the whitespace created)
     $("#staffGroupInput option[value='"+$("#phpDefaultGroup").text().replace(/\s/g,"")+"']").prop("selected",true);
     
@@ -43,6 +45,8 @@ $(document).ready(function() {
             }
         }
     }
+    
+    
     //a function for when the selected entry in the work group/department dropdown is changed
     function staffGroupInputChange(){
         //by default the group number is set to minus 1, so as to detect for errors/no data found in the selection process below
@@ -57,7 +61,16 @@ $(document).ready(function() {
                 }
         }
         //get the current group desired, based on the selected department in the dropdown, including it's array of staff members
-        currentGroup=staffGroupList[groupNo];
+        currentGroup=[];
+        if($("#staffGroupInput").val()!="Hotdesk"){
+            currentGroup=staffGroupList[groupNo];
+        }
+        else{
+            currentGroup={GroupName:"Hotdesk",ar:[]}
+            for(i=0;i<staffGroupList.length;i++){
+                currentGroup.ar=currentGroup.ar.concat(staffGroupList[i].ar);
+            }
+        }
         //empty the staffNameInput dropdown of all elements
         $('#staffNameInput').empty();
         //if no group was found in the array that matches the selected group in the department dropdown
@@ -96,6 +109,13 @@ $(document).ready(function() {
     //call the staffGroupInputChange function
     staffGroupInputChange();
     staffNameInputChange();
+    
+    if(moreThanTwoDaysBefore){
+        $("#staffGroupInput").prop("disabled",true);
+    }
+    else{
+        $("#staffGroupInput").prop("disabled",false);
+    }
     
     $('#staffGroupInput').change(function() {
         staffGroupInputChange();
